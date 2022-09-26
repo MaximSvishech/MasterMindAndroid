@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/numberOfGuesses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:text="Number of guesses" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16dp"
+        android:weightSum="3">
+
+    <Button
+        android:id="@+id/removeBtn"
+        android:layout_width="40dp"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:background="@drawable/custom_btn_remove"
+        android:backgroundTint="#C5BCBC" />
+
+    <EditText
+        android:id="@+id/userGuesses"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:inputType="none"
+        android:enabled="false"
+        android:minEms="4"
+        android:text="4"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="40dp"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:layout_gravity="right"
+        android:background="@drawable/custom_btn_add"
+        android:backgroundTint="#C5BCBC" />
+</LinearLayout>
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="play"
+        android:layout_gravity="right" />
+</TableLayout>

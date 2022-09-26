@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">BullsAndCows</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="how_to_play">How To Play</string>
+    <string name="play">play</string>
+</resources>

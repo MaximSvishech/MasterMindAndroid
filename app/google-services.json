@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "143784308279",
+    "project_id": "bullsandcows-3abc3",
+    "storage_bucket": "bullsandcows-3abc3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143784308279:android:01053b84af65dc810ad9b2",
+        "android_client_info": {
+          "package_name": "com.example.bullsandcows"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143784308279-sq87e4s7il4qoptlgfvi3b1nnq9r2n0s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnjiYhwI0G3zsHs54iQFNYDRfUfw_Sv-8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "143784308279-sq87e4s7il4qoptlgfvi3b1nnq9r2n0s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
