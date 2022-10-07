@@ -3,6 +3,7 @@ package com.example.bullsandcows;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -10,6 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.mrudultora.colorpicker.ColorPickerDialog;
+import com.mrudultora.colorpicker.ColorPickerPopUp;
+import com.mrudultora.colorpicker.listeners.OnSelectColorListener;
+import com.mrudultora.colorpicker.util.ColorItemShape;
 
 import java.security.PrivateKey;
 import java.util.LinkedList;
@@ -17,6 +22,7 @@ import java.util.LinkedList;
 public class MainActivity extends AppCompatActivity {
 
     private Button mPlayButton;
+    private Button mInformationButton;
     private CircularLinkedList mNumOfChoices;
     private Node mCurrentChoice;
 
@@ -35,7 +41,15 @@ public class MainActivity extends AppCompatActivity {
                 showGuessDialog();
             }
         });
+
+        mInformationButton = findViewById(R.id.informationButton);
+        mInformationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
     }
+
 
     private void showGuessDialog() {
         final Dialog guessDialog = new Dialog(MainActivity.this);
@@ -71,9 +85,13 @@ public class MainActivity extends AppCompatActivity {
         startGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this, BoardActivity.class);
+                intent.putExtra("Num of Guesses", mCurrentChoice.value);
+                startActivity(intent);
             }
         });
+
+
         guessDialog.show();
     }
 }
