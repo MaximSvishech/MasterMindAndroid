@@ -32,7 +32,7 @@
 
     <Button
         android:id="@+id/startButton"
-        android:layout_width="161dp"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
@@ -48,34 +48,14 @@
         app:iconPadding="0dp" />
 
     <Button
-        android:id="@+id/settingsButtons"
-        style="Widget.Material3.Button.Icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="564dp"
-        android:layout_marginBottom="4dp"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
-        app:icon="@drawable/ic_baseline_settings_24"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-    <Button
         android:id="@+id/informationButton"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="126dp"
-        android:layout_marginBottom="138dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="137dp"
         android:insetLeft="0dp"
         android:insetTop="0dp"
         android:insetRight="0dp"
@@ -87,11 +67,11 @@
 
     <Button
         android:id="@+id/leaderboardButton"
-        android:layout_width="wrap_content"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="69dp"
+        android:layout_marginBottom="70dp"
         android:insetLeft="0dp"
         android:insetTop="0dp"
         android:insetRight="0dp"
@@ -118,6 +98,16 @@
         android:layout_marginTop="35dp"
 
         android:inputType="text"/>
+
+    <ImageButton
+        android:id="@+id/languageButton"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="550dp"
+        android:backgroundTint="@color/white"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/language_icon" />
 
 
 </RelativeLayout>

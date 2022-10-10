@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/numberOfGuesses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:text="@string/choose_language" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="15dp"
+        android:weightSum="456">
+
+
+        <ImageButton
+            android:id="@+id/englishButton"
+            android:layout_weight="1"
+            android:layout_width="59dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/white"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/english_icon" />
+
+        <ImageButton
+            android:id="@+id/hebrewButton"
+            android:layout_width="59dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/hebrew_icon" />
+    </LinearLayout>
+</TableLayout>

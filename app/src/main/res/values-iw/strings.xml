@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">בול פגיעה</string>
+    <string name="leaderboard">דירוג מובילים</string>
+    <string name="how_to_play">איך לשחק</string>
+    <string name="play">להתחלת המשחק</string>
+    <string name="terminate_msg">התנתקת בהצלחה</string>
+    <string name="choose_language">נא לבחור שפה</string>
+    <string name="number_of_guesses">מספר ניחושים</string>
+
+</resources>

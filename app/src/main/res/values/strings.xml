@@ -4,4 +4,6 @@
     <string name="how_to_play">How To Play</string>
     <string name="play">play</string>
     <string name="terminate_msg">unauthorize</string>
+    <string name="choose_language">Choose language</string>
+    <string name="number_of_guesses">Number of guesses</string>
 </resources>
