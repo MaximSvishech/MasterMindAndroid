@@ -82,14 +82,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, requestCode);
     }
 
-    /**
-     * This method is invoked automatically after the other activity was finished successfully
-     * or terminated with failure.
-     *
-     * @param requestCode that was originally passed to startActivityForResult method
-     * @param resultCode  how did the activity finished
-     * @param data        the finished activity can return data to the invoking activity
-     */
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -103,12 +96,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * when signing-out from firebase, the procedure will happen sometime
-     * in the future. We need to somehow signal our app upon completion
-     * We will use a CompletionListener in order to run our code only when
-     * sign-out is completed successfully
-     */
     public void signOut() {
         Task<Void> signOutTask = AuthUI.getInstance().signOut(this);
         signOutTask.addOnCompleteListener(new OnCompleteListener<Void>() {
