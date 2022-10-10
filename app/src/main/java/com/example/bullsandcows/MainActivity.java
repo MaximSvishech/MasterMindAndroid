@@ -179,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         guessDialog.show();
     }
 }
