@@ -3,4 +3,5 @@
     <string name="leaderboard">Leaderboard</string>
     <string name="how_to_play">How To Play</string>
     <string name="play">play</string>
+    <string name="terminate_msg">unauthorize</string>
 </resources>
