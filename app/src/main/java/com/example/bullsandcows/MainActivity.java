@@ -2,11 +2,15 @@ package com.example.bullsandcows;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -22,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -30,16 +35,22 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQ_CODE_AFTER_SIGN_OUT = 2;
     private Button mPlayButton;
     private Button mInformationButton;
+    private ImageButton mLanguageButton;
     private CircularLinkedList mNumOfChoices;
     private ImageButton mlogoutButton;
     private Node mCurrentChoice;
     private TextView mhelloText;
 
 
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadLocale();
         setContentView(R.layout.activity_main);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.app_name));
 
         // check if user has already signed-in (due to firebase persistent credentials)
         if (FirebaseAuth.getInstance().getCurrentUser() == null) // no user is signed-in
@@ -72,24 +83,25 @@ public class MainActivity extends AppCompatActivity {
                 signOut();
             }
         });
+        mLanguageButton = findViewById(R.id.languageButton);
+        mLanguageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLanguageDialog();
 
+            }
+        });
 
 
     }
+
 
     public void signIn(int requestCode) {
         Intent signInIntent = AuthUI.getInstance().createSignInIntentBuilder().build();
         startActivityForResult(signInIntent, requestCode);
     }
 
-    /**
-     * This method is invoked automatically after the other activity was finished successfully
-     * or terminated with failure.
-     *
-     * @param requestCode that was originally passed to startActivityForResult method
-     * @param resultCode  how did the activity finished
-     * @param data        the finished activity can return data to the invoking activity
-     */
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -103,12 +115,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * when signing-out from firebase, the procedure will happen sometime
-     * in the future. We need to somehow signal our app upon completion
-     * We will use a CompletionListener in order to run our code only when
-     * sign-out is completed successfully
-     */
     public void signOut() {
         Task<Void> signOutTask = AuthUI.getInstance().signOut(this);
         signOutTask.addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -134,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             assert currentUser != null;
             String userDetails = "Display name = " + currentUser.getDisplayName() +
                     ", ID = " + currentUser.getUid() + ", Provider = " + currentUser.getProviderId();
-            mhelloText.setText("hello "+ Objects.requireNonNull(currentUser.getDisplayName()).split("\\s")[0]);
+            mhelloText.setText("hello " + Objects.requireNonNull(currentUser.getDisplayName()).split("\\s")[0]);
         } else {
             Toast.makeText(this, R.string.terminate_msg, Toast.LENGTH_LONG).show();
         }
@@ -180,5 +186,53 @@ public class MainActivity extends AppCompatActivity {
         });
 
         guessDialog.show();
+    }
+
+    public void showLanguageDialog() {
+        final Dialog languageDialog = new Dialog(MainActivity.this);
+        languageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        languageDialog.setContentView(R.layout.langueage_dialog);
+
+        final ImageButton englishButton = languageDialog.findViewById(R.id.englishButton);
+        final ImageButton hebrewButton = languageDialog.findViewById(R.id.hebrewButton);
+
+        englishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("en");
+                recreate();
+                languageDialog.dismiss();
+            }
+        });
+        hebrewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setLocale("iw");
+                recreate();
+                languageDialog.dismiss();
+            }
+        });
+        languageDialog.show();
+
+    }
+
+    private void setLocale(String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        //save data to shared Prefernces
+        SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
+        editor.putString("My_Lang", language);
+        editor.apply();
+
+    }
+
+    // load language saved in shared prefernces
+    public void loadLocale() {
+        SharedPreferences prefs = getSharedPreferences("Settings", Activity.MODE_PRIVATE);
+        String language = prefs.getString("My_Lang", "iw-rlL");
+        setLocale(language);
     }
 }
