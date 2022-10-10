@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mPlayButton;
     private Button mInformationButton;
     private CircularLinkedList mNumOfChoices;
+    private ImageButton nlogoutButton;
     private Node mCurrentChoice;
 
 
@@ -60,6 +61,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
             }
         });
+        nlogoutButton = findViewById(R.id.logoutButton);
+        nlogoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signOut();
+            }
+        });
 
 
     }
@@ -84,17 +92,12 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // user is logged-in
                 showUserDetails(true);
-                enterChat();
             } else {
                 // user did not log-in. if MainActivity closes, the application will close
                 showUserDetails(false);
                 finish();
             }
         }
-    }
-
-    private void enterChat() {
-
     }
 
     /**
@@ -129,20 +132,13 @@ public class MainActivity extends AppCompatActivity {
     public void showUserDetails(boolean success) {
         if (success) {
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            assert currentUser != null;
             String userDetails = "Display name = " + currentUser.getDisplayName() +
                     ", ID = " + currentUser.getUid() + ", Provider = " + currentUser.getProviderId();
-            Toast.makeText(this, userDetails, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "hello " + currentUser.getDisplayName(), Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, R.string.terminate_msg, Toast.LENGTH_LONG).show();
         }
-    }
-
-    // ClickHandler for our button
-    public void invokeSecondActivity(View view) {
-        Intent openSecondActivity = new Intent(MainActivity.this, secondActivity.class);
-        startActivity(openSecondActivity);
-
-
     }
 
     private void showGuessDialog() {

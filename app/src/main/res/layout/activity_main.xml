@@ -101,5 +101,13 @@
         app:iconGravity="textStart"
         app:iconPadding="0dp" />
 
+    <ImageButton
+        android:id="@+id/logoutButton"
+        android:layout_width="59dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/white"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/logout" />
+
 
 </RelativeLayout>
