@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,14 +13,16 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private Button mPlayButton;
     private Button mInformationButton;
     private CircularLinkedList mNumOfChoices;
-    private ImageButton nlogoutButton;
+    private ImageButton mlogoutButton;
     private Node mCurrentChoice;
+    private TextView mhelloText;
 
 
     @Override
@@ -61,13 +65,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
             }
         });
-        nlogoutButton = findViewById(R.id.logoutButton);
-        nlogoutButton.setOnClickListener(new View.OnClickListener() {
+        mlogoutButton = findViewById(R.id.logoutButton);
+        mlogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signOut();
             }
         });
+
 
 
     }
@@ -90,10 +95,8 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_CODE_ON_CREATE) {
             if (resultCode == RESULT_OK) {
-                // user is logged-in
                 showUserDetails(true);
             } else {
-                // user did not log-in. if MainActivity closes, the application will close
                 showUserDetails(false);
                 finish();
             }
@@ -122,20 +125,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * This method shows a pop-up on MainActivity with either the user details in case of
-     * successful login, or a termination message in case a user did not login/signed-up
-     * to the application
-     *
-     * @param success
-     */
+
+    @SuppressLint("SetTextI18n")
     public void showUserDetails(boolean success) {
         if (success) {
+            mhelloText = (TextView) findViewById(R.id.helloText);
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
             assert currentUser != null;
             String userDetails = "Display name = " + currentUser.getDisplayName() +
                     ", ID = " + currentUser.getUid() + ", Provider = " + currentUser.getProviderId();
-            Toast.makeText(this, "hello " + currentUser.getDisplayName(), Toast.LENGTH_LONG).show();
+            mhelloText.setText("hello "+ Objects.requireNonNull(currentUser.getDisplayName()).split("\\s")[0]);
         } else {
             Toast.makeText(this, R.string.terminate_msg, Toast.LENGTH_LONG).show();
         }
