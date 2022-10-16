@@ -12,7 +12,7 @@
         <entry key="app/src/main/res/drawable/custom_btn_add.xml" value="0.1425" />
         <entry key="app/src/main/res/drawable/custom_btn_remove.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_add_circle_full.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_board.xml" value="0.19927536231884058" />
+        <entry key="app/src/main/res/layout/activity_board.xml" value="0.75" />
         <entry key="app/src/main/res/layout/activity_leader_board.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19927536231884058" />
         <entry key="app/src/main/res/layout/guesses_choice_dialog.xml" value="0.33" />
