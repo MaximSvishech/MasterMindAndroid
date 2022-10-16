@@ -54,6 +54,7 @@
         android:background="@drawable/custom_btn_add"
         android:backgroundTint="#C5BCBC" />
 </LinearLayout>
+
     <Button
         android:id="@+id/playButton"
         android:layout_width="wrap_content"

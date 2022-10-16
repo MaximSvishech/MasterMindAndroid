@@ -3,11 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="..\:/Users/maxim/OneDrive/Desktop/BullsAndCows/app/src/main/res/layout/activity_board.xml" value="0.298050139275766" />
         <entry key="..\:/Users/maxim/OneDrive/Desktop/BullsAndCows/app/src/main/res/layout/activity_game.xml" value="0.3625" />
         <entry key="..\:/Users/maxim/OneDrive/Desktop/BullsAndCows/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
         <entry key="..\:/Users/maxim/OneDrive/Desktop/BullsAndCows/app/src/main/res/layout/game_board.xml" value="0.358695652173913" />
         <entry key="..\:/Users/maxim/OneDrive/Desktop/BullsAndCows/app/src/main/res/layout/guesses_choice_dialog.xml" value="0.223731884057971" />
+        <entry key="app/src/main/res/drawable/custom_btn_add.xml" value="0.1425" />
+        <entry key="app/src/main/res/drawable/custom_btn_remove.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_add_circle_full.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_board.xml" value="0.19927536231884058" />
+        <entry key="app/src/main/res/layout/activity_leader_board.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19927536231884058" />
+        <entry key="app/src/main/res/layout/guesses_choice_dialog.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/high_score.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/langueage_dialog.xml" value="0.19927536231884058" />
       </map>
     </option>
   </component>

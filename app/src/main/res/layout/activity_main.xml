@@ -86,8 +86,10 @@
         android:layout_width="59dp"
         android:layout_height="50dp"
         android:backgroundTint="@color/white"
+        android:contentDescription="@string/logout"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/logout" />
+        app:srcCompat="@drawable/logout"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/helloText"
@@ -97,7 +99,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="35dp"
 
-        android:inputType="text"/>
+        android:hint="@string/logout"
+        android:inputType="text" />
 
     <ImageButton
         android:id="@+id/languageButton"
@@ -106,6 +109,7 @@
         android:layout_marginStart="6dp"
         android:layout_marginTop="550dp"
         android:backgroundTint="@color/white"
+        android:contentDescription="@string/choose_language"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/language_icon" />
 
