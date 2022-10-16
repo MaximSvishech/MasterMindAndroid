@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         signOutTask.addOnCompleteListener((aTask) -> {
-            Toast.makeText(MainActivity.this, "Signed-out successfully", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, R.string.log_out, Toast.LENGTH_LONG).show();
             signIn(REQ_CODE_AFTER_SIGN_OUT);
         });
     }
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             assert currentUser != null;
             String userDetails = "Display name = " + currentUser.getDisplayName() +
                     ", ID = " + currentUser.getUid() + ", Provider = " + currentUser.getProviderId();
-            mhelloText.setText("hello " + Objects.requireNonNull(currentUser.getDisplayName()).split("\\s")[0]);
+            mhelloText.setText(Objects.requireNonNull(currentUser.getDisplayName()).split("\\s")[0]);
         } else {
             Toast.makeText(this, R.string.terminate_msg, Toast.LENGTH_LONG).show();
         }

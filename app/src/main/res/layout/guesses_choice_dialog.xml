@@ -58,6 +58,6 @@
         android:id="@+id/playButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="play"
+        android:text="@string/play_b"
         android:layout_gravity="right" />
 </TableLayout>
