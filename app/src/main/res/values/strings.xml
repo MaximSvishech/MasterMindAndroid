@@ -11,4 +11,6 @@
     <string name="choose_lang">Choose your language</string>
     <string name="score_one_guess">1 guess</string>
     <string name="score_num_of_guesses">%1$d guesses</string>
+    <string name="log_out">"Signed-out successfully"</string>
+    <string name="play_b">play</string>
 </resources>

@@ -4,7 +4,7 @@
     <string name="leaderboard">דירוג מובילים</string>
     <string name="how_to_play">איך לשחק</string>
     <string name="play">להתחלת המשחק</string>
-    <string name="terminate_msg">התנתקת בהצלחה</string>
+    <string name="terminate_msg">לא מאומת</string>
     <string name="choose_language">נא לבחור שפה</string>
     <string name="number_of_guesses">מספר ניחושים</string>
     <string name="could_not_fetch_scores">לא הייתה אפשרות למשוך את טבלת השיאים</string>
@@ -12,5 +12,8 @@
     <string name="choose_lang">בחר שפה</string>
     <string name="score_one_guess">ניחוש 1</string>
     <string name="score_num_of_guesses">%1$d ניחושים</string>
+    <string name="log_out">"התנקת בהצלחה</string>
+    <string name="play_b">התחל משחק</string>
+
 
 </resources>
