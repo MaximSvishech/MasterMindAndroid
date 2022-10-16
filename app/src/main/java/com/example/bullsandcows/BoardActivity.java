@@ -107,8 +107,10 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void enableNextGuess() {
-        for (Button button : mCurrentTurn)
+        for (Button button : mCurrentTurn) {
             button.setEnabled(true);
+            button.setClickable(true);
+        }
     }
 
     private void colorComputerChoiceButtons() {
