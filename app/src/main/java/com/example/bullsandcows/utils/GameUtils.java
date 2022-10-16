@@ -1,4 +1,8 @@
-package com.example.bullsandcows;
+package com.example.bullsandcows.utils;
+
+import com.example.bullsandcows.CircularLinkedList;
+import com.example.bullsandcows.eColor;
+import com.example.bullsandcows.eNumOfChoices;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

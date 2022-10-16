@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bullsandcows.utils.GameUtils;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQ_CODE_AFTER_SIGN_OUT = 2;
     private Button mPlayButton;
     private Button mInformationButton;
+    private Button mLeaderBoardButton;
     private ImageButton mLanguageButton;
     private CircularLinkedList mNumOfChoices;
     private ImageButton mlogoutButton;
@@ -89,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showLanguageDialog();
 
+            }
+        });
+        mLeaderBoardButton = findViewById(R.id.leaderboardButton);
+        mLeaderBoardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Intent leaderBoardIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
+                startActivity(leaderBoardIntent);
             }
         });
 

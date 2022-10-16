@@ -7,5 +7,10 @@
     <string name="terminate_msg">התנתקת בהצלחה</string>
     <string name="choose_language">נא לבחור שפה</string>
     <string name="number_of_guesses">מספר ניחושים</string>
+    <string name="could_not_fetch_scores">לא הייתה אפשרות למשוך את טבלת השיאים</string>
+    <string name="logout">התנתק</string>
+    <string name="choose_lang">בחר שפה</string>
+    <string name="score_one_guess">ניחוש 1</string>
+    <string name="score_num_of_guesses">%1$d ניחושים</string>
 
 </resources>

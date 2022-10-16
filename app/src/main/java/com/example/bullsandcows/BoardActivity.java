@@ -8,12 +8,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+
+import com.example.bullsandcows.utils.DBUtils;
+import com.example.bullsandcows.utils.GameUtils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mrudultora.colorpicker.ColorPickerDialog;
 import com.mrudultora.colorpicker.listeners.OnSelectColorListener;
 import com.mrudultora.colorpicker.util.ColorItemShape;
 
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.stream.IntStream;
 
 public class BoardActivity extends AppCompatActivity {
 
@@ -52,7 +58,7 @@ public class BoardActivity extends AppCompatActivity {
                 mNumOfColorsSelected++;
         }
 
-            if (mNumOfColorsSelected == 4){
+            if (mNumOfColorsSelected == 4) {
                 int id = getResources().getIdentifier("try" + mTryNumber + "_go", "id", getPackageName());
                 mArrowButton = findViewById(id);
                 if (mArrowButton != null){
@@ -67,10 +73,10 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     public void calculateGuess(View v){
+        DBUtils.writeNewScore(mTryNumber);
         for (Button button : mCurrentTurn)
-        {
             button.setClickable(false);
-        }
+
         mGame.CountHits(mRandomChoiceList, mGame.getGameBoard().getUserGuesses());
         mGame.getGameBoard().addComputerFeedBack(mGame.getBulPgiaCounter(),mGame.getPgiaCounter(),mTryNumber);
         colorComputerChoiceButtons();
@@ -84,23 +90,18 @@ public class BoardActivity extends AppCompatActivity {
         }
         if (mGame.IsWon())
         {
-            eColor color1 = eColor.valueOf(mRandomChoiceList.elementAt(0));
-            eColor color2 = eColor.valueOf(mRandomChoiceList.elementAt(1));
-            eColor color3 = eColor.valueOf(mRandomChoiceList.elementAt(2));
-            eColor color4 = eColor.valueOf(mRandomChoiceList.elementAt(3));
+            IntStream.range(0, 4).forEach(i -> {
+                eColor trueColor = eColor.valueOf(mRandomChoiceList.elementAt(i));
+                mSecretButtons.elementAt(i).setBackgroundColor(Color.parseColor(trueColor.getValue()));
+            });
 
-            mSecretButtons.elementAt(0).setBackgroundColor(Color.parseColor(color1.getValue()));
-            mSecretButtons.elementAt(1).setBackgroundColor(Color.parseColor(color2.getValue()));
-            mSecretButtons.elementAt(2).setBackgroundColor(Color.parseColor(color3.getValue()));
-            mSecretButtons.elementAt(3).setBackgroundColor(Color.parseColor(color4.getValue()));
+            DBUtils.writeNewScore(mTryNumber);
         }
     }
 
     private void enableNextGuess() {
         for (Button button : mCurrentTurn)
-        {
             button.setClickable(true);
-        }
     }
 
     private void colorComputerChoiceButtons() {
