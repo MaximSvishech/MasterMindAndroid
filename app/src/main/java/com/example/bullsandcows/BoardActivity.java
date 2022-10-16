@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -57,6 +58,7 @@ public class BoardActivity extends AppCompatActivity {
                 mArrowButton = findViewById(id);
                 if (mArrowButton != null){
                     mArrowButton.setClickable(true);
+                    mArrowButton.setEnabled(true);
                 }
             }
         }
@@ -69,12 +71,16 @@ public class BoardActivity extends AppCompatActivity {
     public void calculateGuess(View v){
         for (Button button : mCurrentTurn)
         {
+            button.setAlpha(.5f);
             button.setClickable(false);
+            button.setEnabled(false);
         }
         mGame.CountHits(mRandomChoiceList, mGame.getGameBoard().getUserGuesses());
         mGame.getGameBoard().addComputerFeedBack(mGame.getBulPgiaCounter(),mGame.getPgiaCounter(),mTryNumber);
         colorComputerChoiceButtons();
+        mArrowButton.setAlpha(.5f);
         mArrowButton.setClickable(false);
+        mArrowButton.setEnabled(false);
         if (!mGame.IsWon() && mTryNumber < mNumOfGuesses)
         {
             mGame.ResetHits();
@@ -100,6 +106,7 @@ public class BoardActivity extends AppCompatActivity {
         for (Button button : mCurrentTurn)
         {
             button.setClickable(true);
+            button.setEnabled(true);
         }
     }
 
