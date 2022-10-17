@@ -16,6 +16,8 @@
     <string name="play_b">התחל משחק</string>
     <string name="language">שפה</string>
     <string name="sign_out">התנתק</string>
+    <string name="music">מוזיקה</string>
+    <string name="hello">שלום,  </string>
 
 
 </resources>

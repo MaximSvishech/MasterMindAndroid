@@ -15,4 +15,6 @@
     <string name="sign_out">"sign-out"</string>
     <string name="play_b">play</string>
     <string name="language">language</string>
+    <string name="music">music</string>
+    <string name="hello">hello, </string>
 </resources>
