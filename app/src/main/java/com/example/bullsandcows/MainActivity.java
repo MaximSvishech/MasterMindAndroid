@@ -14,6 +14,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -112,6 +113,23 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.language:
+                showLanguageDialog();
+                return true;
+            case R.id.logout:
+                signOut();
+                return true;
+
+
+        }
+        return super.onOptionsItemSelected(item);
+
     }
 
     public void signIn(int requestCode) {
