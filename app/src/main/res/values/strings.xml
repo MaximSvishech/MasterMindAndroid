@@ -17,7 +17,7 @@
     <string name="stats">Stats</string>
     <string name="language">language</string>
     <string name="music">music</string>
-    <string name="hello">hello, </string>
+    <string name="hello">Hello, </string>
     <string name="how_to_title">Game Rules</string>
     <string name="how_to_explanation"> A secret combination of 4 colors is selected and you have to guess that combination in 10 or fewer tries to win.\n
     How to play\n
