@@ -14,6 +14,7 @@
     <string name="log_out">"Signed-out successfully"</string>
     <string name="sign_out">"sign-out"</string>
     <string name="play_b">play</string>
+    <string name="stats">Stats</string>
     <string name="language">language</string>
     <string name="music">music</string>
     <string name="hello">hello, </string>

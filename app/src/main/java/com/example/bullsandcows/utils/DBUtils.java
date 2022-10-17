@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.bullsandcows.GameScore;
 import com.example.bullsandcows.LeaderBoardActivity;
 import com.example.bullsandcows.R;
+import com.example.bullsandcows.StatsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -17,7 +18,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 public class DBUtils {
@@ -58,5 +62,31 @@ public class DBUtils {
             }
         });
 
+    }
+
+    public static void fetchMyStats(StatsActivity context) {
+        List<GameScore> scores = new ArrayList<>();
+        DatabaseReference queryLocation =
+                mDatabase.child("scores");
+        Query query = queryLocation.orderByChild("userID").equalTo(currentUser.getUid());
+        query.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot scoreSnapshot : dataSnapshot.getChildren()) {
+                    GameScore score = scoreSnapshot.getValue(GameScore.class);
+                    scores.add(score);
+                }
+
+                Map<Integer, Long> scoresCountMap = scores.stream().collect(Collectors.groupingBy(GameScore::getScore, Collectors.counting()));
+                context.onStatsObtained(scoresCountMap);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(context, context.getString(R.string.could_not_fetch_scores), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

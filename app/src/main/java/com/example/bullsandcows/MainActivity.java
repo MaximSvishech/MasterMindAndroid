@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mPlayButton;
     private Button mInformationButton;
     private Button mLeaderBoardButton;
+    private Button mStatsButton;
+    private ImageButton mLanguageButton;
     private CircularLinkedList mNumOfChoices;
     private Node mCurrentChoice;
 
@@ -86,6 +88,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent leaderBoardIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
                 startActivity(leaderBoardIntent);
+            }
+        });
+        mStatsButton = findViewById(R.id.statsButton);
+        mStatsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent statsIntent = new Intent(MainActivity.this, StatsActivity.class);
+                startActivity(statsIntent);
             }
         });
 
