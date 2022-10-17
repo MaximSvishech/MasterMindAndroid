@@ -13,4 +13,5 @@
     <string name="score_num_of_guesses">%1$d guesses</string>
     <string name="log_out">"Signed-out successfully"</string>
     <string name="play_b">play</string>
+    <string name="stats">Stats</string>
 </resources>

@@ -14,6 +14,7 @@
     <string name="score_num_of_guesses">%1$d ניחושים</string>
     <string name="log_out">"התנקת בהצלחה</string>
     <string name="play_b">התחל משחק</string>
+    <string name="stats">נתונים</string>
 
 
 </resources>
