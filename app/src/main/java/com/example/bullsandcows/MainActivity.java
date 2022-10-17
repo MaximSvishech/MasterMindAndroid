@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private Button mInformationButton;
     private Button mLeaderBoardButton;
     private Button mStatsButton;
-    private ImageButton mLanguageButton;
     private CircularLinkedList mNumOfChoices;
     private Node mCurrentChoice;
 
