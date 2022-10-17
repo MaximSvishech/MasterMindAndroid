@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BullsAndCows</string>
+    <string name="app_name">MasterMind</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="how_to_play">How To Play</string>
     <string name="play">play</string>
@@ -18,4 +18,12 @@
     <string name="language">language</string>
     <string name="music">music</string>
     <string name="hello">hello, </string>
+    <string name="how_to_title">Game Rules</string>
+    <string name="how_to_explanation"> A secret combination of 4 colors is selected and you have to guess that combination in 10 or fewer tries to win.\n
+    How to play\n
+    From top to bottom, at each row, click on a circle and pick a color. After filling all circles in a row, you can check your guess.\n
+    A black circle means that there is a guess with the correct color and position.\n
+    An yellow circle means that the color exists in the combination but the position is not correct.\n
+       An empty circle means that color is not in the combination at all. </string>
+    <string name="how_to_back">Back</string>
 </resources>
