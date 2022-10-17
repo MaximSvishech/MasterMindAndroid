@@ -21,7 +21,7 @@
         <entry key="app/src/main/res/drawable/ic_remove_circle_outline.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_board.xml" value="0.75" />
         <entry key="app/src/main/res/layout/activity_leader_board.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_stats.xml" value="0.1947463768115942" />
         <entry key="app/src/main/res/layout/combined_high_score.xml" value="0.5" />
         <entry key="app/src/main/res/layout/compound_high_score.xml" value="0.5" />

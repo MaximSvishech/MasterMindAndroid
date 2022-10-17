@@ -1,5 +1,6 @@
 package com.example.bullsandcows;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -12,6 +13,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -25,10 +29,8 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Locale;
-import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,9 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mStatsButton;
     private ImageButton mLanguageButton;
     private CircularLinkedList mNumOfChoices;
-    private ImageButton mlogoutButton;
     private Node mCurrentChoice;
-    private TextView mhelloText;
 
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
@@ -54,13 +54,15 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.app_name));
-
         // check if user has already signed-in (due to firebase persistent credentials)
         if (FirebaseAuth.getInstance().getCurrentUser() == null) // no user is signed-in
             signIn(REQ_CODE_ON_CREATE);
         else {
             // user is signed-in
-            showUserDetails(true);
+
+            String username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+
+            actionBar.setSubtitle( getResources().getString(R.string.hello)+" " + username);
         }
         mNumOfChoices = new CircularLinkedList();
         GameUtils.addChoices(mNumOfChoices);
@@ -79,26 +81,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
             }
         });
-        mlogoutButton = findViewById(R.id.logoutButton);
-        mlogoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signOut();
-            }
-        });
-        mLanguageButton = findViewById(R.id.languageButton);
-        mLanguageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showLanguageDialog();
 
-            }
-        });
         mLeaderBoardButton = findViewById(R.id.leaderboardButton);
         mLeaderBoardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent leaderBoardIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
+                Intent leaderBoardIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
                 startActivity(leaderBoardIntent);
             }
         });
@@ -114,25 +102,35 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.language:
+                showLanguageDialog();
+                return true;
+            case R.id.logout:
+                signOut();
+                return true;
+
+
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
 
     public void signIn(int requestCode) {
         Intent signInIntent = AuthUI.getInstance().createSignInIntentBuilder().build();
         startActivityForResult(signInIntent, requestCode);
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQ_CODE_ON_CREATE) {
-            if (resultCode == RESULT_OK) {
-                showUserDetails(true);
-            } else {
-                showUserDetails(false);
-                finish();
-            }
-        }
-    }
 
     public void signOut() {
         Task<Void> signOutTask = AuthUI.getInstance().signOut(this);
@@ -150,20 +148,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    @SuppressLint("SetTextI18n")
-    public void showUserDetails(boolean success) {
-        if (success) {
-            mhelloText = (TextView) findViewById(R.id.helloText);
-            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-            assert currentUser != null;
-            String userDetails = "Display name = " + currentUser.getDisplayName() +
-                    ", ID = " + currentUser.getUid() + ", Provider = " + currentUser.getProviderId();
-            mhelloText.setText(Objects.requireNonNull(currentUser.getDisplayName()).split("\\s")[0]);
-        } else {
-            Toast.makeText(this, R.string.terminate_msg, Toast.LENGTH_LONG).show();
-        }
-    }
 
     private void showGuessDialog() {
         final Dialog guessDialog = new Dialog(MainActivity.this);
