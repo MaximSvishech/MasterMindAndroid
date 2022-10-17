@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +40,9 @@ public class BoardActivity extends AppCompatActivity {
     private int mNumOfColorsSelected = 0;
     private Button mArrowButton;
     private GameLogic mGame;
+    private SoundPool soundPool;
+    private int popSound, longPopSound, tadaSound, negativeBeepsSound,
+            sweepSound, shortTransitionSound, swooshSound;
 
 
     @Override
@@ -49,6 +55,36 @@ public class BoardActivity extends AppCompatActivity {
         mNumOfGuesses = getIntent().getIntExtra("Num of Guesses", 4);
         mGame = new GameLogic(mNumOfGuesses);
         prepareBoard();
+        prepareSoundPool();
+    }
+
+
+    private void prepareSoundPool() {
+        AudioAttributes audioAttrib = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ALARM)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        soundPool = new SoundPool.Builder().
+                setAudioAttributes(audioAttrib).
+                setMaxStreams(3).build();
+
+        popSound = soundPool.load(this, R.raw.pop, 1);
+        longPopSound = soundPool.load(this, R.raw.long_pop, 1);
+        tadaSound = soundPool.load(this, R.raw.tada, 1);
+        negativeBeepsSound = soundPool.load(this, R.raw.negative_beeps, 1);
+        sweepSound = soundPool.load(this, R.raw.sweep, 1);
+        shortTransitionSound = soundPool.load(this, R.raw.transition_short, 1);
+        swooshSound = soundPool.load(this, R.raw.swoosh, 1);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int mySoundId, int status) {
+                playSound(swooshSound);
+            }
+        });
+    }
+
+    private void playSound(int soundID) {
+        soundPool.play(soundID, 1, 1, 0, 0, 1);
     }
 
     private void checkIfEnableArrowButton() {
@@ -84,6 +120,8 @@ public class BoardActivity extends AppCompatActivity {
 
         mGame.CountHits(mRandomChoiceList, mGame.getGameBoard().getUserGuesses());
         mGame.getGameBoard().addComputerFeedBack(mGame.getBulPgiaCounter(),mGame.getPgiaCounter(),mTryNumber);
+        addAudibleFeedback();
+
         colorComputerChoiceButtons();
         mArrowButton.setAlpha(.5f);
         mArrowButton.setClickable(false);
@@ -95,8 +133,8 @@ public class BoardActivity extends AppCompatActivity {
             mCurrentTurn = findGuessButtons(mTryNumber);
             enableNextGuess();
         }
-        if (mGame.IsWon() || mTryNumber > mNumOfGuesses)
-        {
+        if (mGame.IsWon() || mTryNumber > mNumOfGuesses) {
+            playSound(mGame.IsWon() ? tadaSound : negativeBeepsSound);
             IntStream.range(0, 4).forEach(i -> {
                 eColor trueColor = eColor.valueOf(mRandomChoiceList.elementAt(i));
                 mSecretButtons.elementAt(i).setBackgroundColor(Color.parseColor(trueColor.getValue()));
@@ -104,6 +142,32 @@ public class BoardActivity extends AppCompatActivity {
 
             DBUtils.writeNewScore(mTryNumber);
         }
+    }
+
+    private void addAudibleFeedback() {
+        ArrayList<Integer> soundsToPlay = new ArrayList();
+        for (int i = 0; i < mGame.getBulPgiaCounter(); i++) {
+            soundsToPlay.add(popSound);
+        }
+
+        for (int i = 0; i < mGame.getPgiaCounter(); i++) {
+            soundsToPlay.add(longPopSound);
+        }
+        Thread t = new Thread(() -> {
+            int i;
+            for ( i = 0; i < soundsToPlay.size() -1; i++) {
+                playSound(soundsToPlay.get(i));
+                try {
+                    Thread.currentThread().sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            playSound(soundsToPlay.get(i)); // last one - no need to pause
+            return;
+        });
+        t.start();
     }
 
     private void enableNextGuess() {
@@ -149,6 +213,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     public void OpenColorDialog(View v) {
+        playSound(longPopSound);
         ArrayList colors = getColors(mCurrentTurn);
 
         ColorPickerDialog colorPickerDialog = new ColorPickerDialog(this);   // Pass the context.
