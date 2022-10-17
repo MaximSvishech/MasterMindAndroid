@@ -6,11 +6,7 @@
     <string name="terminate_msg">unauthorize</string>
     <string name="choose_language">Choose language</string>
     <string name="number_of_guesses">Number of guesses</string>
-    <string name="could_not_fetch_scores">Could not fetch high scores!</string>
-    <string name="logout">Log Out</string>
-    <string name="choose_lang">Choose your language</string>
-    <string name="score_one_guess">1 guess</string>
-    <string name="score_num_of_guesses">%1$d guesses</string>
     <string name="log_out">"Signed-out successfully"</string>
     <string name="play_b">play</string>
+
 </resources>
