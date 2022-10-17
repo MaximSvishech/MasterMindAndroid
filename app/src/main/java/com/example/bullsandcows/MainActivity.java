@@ -21,6 +21,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -195,9 +196,8 @@ public class MainActivity extends AppCompatActivity {
         final Dialog languageDialog = new Dialog(MainActivity.this);
         languageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         languageDialog.setContentView(R.layout.langueage_dialog);
-
-        final ImageButton englishButton = languageDialog.findViewById(R.id.englishButton);
-        final ImageButton hebrewButton = languageDialog.findViewById(R.id.hebrewButton);
+        final RadioButton englishButton = languageDialog.findViewById(R.id.englishRadioButton);
+        final RadioButton hebrewButton = languageDialog.findViewById(R.id.hebrewRadioButton);
 
         englishButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,9 +215,12 @@ public class MainActivity extends AppCompatActivity {
                 languageDialog.dismiss();
             }
         });
-        languageDialog.show();
 
+
+        languageDialog.show();
     }
+
+
 
     private void setLocale(String language) {
         Locale locale = new Locale(language);
