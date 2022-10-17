@@ -96,22 +96,26 @@ public class BarChartLayout extends ViewGroup {
                     barRight - (int)this.barMarginH,
                     barBottom - (int)barMarginV
             );
+            barView.setPivotX(0);
+            barView.setScaleX(0);
+            int finalBarWidth = barWidth;
+            barView.animate().scaleX(1).setDuration(300).withEndAction(() -> {
+                int labelWidth = bar.getLabelView().getMeasuredWidth();
+                int spaceLeftForLabel = finalBarWidth - 2 * (int) barMarginH;
 
-            int labelWidth = bar.getLabelView().getMeasuredWidth();
-            int spaceLeftForLabel = barWidth - 2 * (int)barMarginH;
+                int labelLeft = (spaceLeftForLabel >= labelWidth) ?
+                        (int) (barRight - labelWidth - barMarginH) : barRight;
+                int labelTop = barTop;
+                int labelRight = labelLeft + labelWidth;
+                int labelBottom = barBottom;
 
-            int labelLeft = (spaceLeftForLabel >= labelWidth) ?
-                    (int) (barRight - labelWidth - barMarginH) : barRight;
-            int labelTop = barTop;
-            int labelRight = labelLeft + labelWidth;
-            int labelBottom = barBottom;
-
-            bar.getLabelView().layout(
-                    labelLeft,
-                    labelTop,
-                    labelRight,
-                    labelBottom
-            );
+                bar.getLabelView().layout(
+                        labelLeft,
+                        labelTop,
+                        labelRight,
+                        labelBottom
+                );
+            });
         }
     }
 }
