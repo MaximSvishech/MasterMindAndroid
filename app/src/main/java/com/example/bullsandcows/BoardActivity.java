@@ -110,6 +110,9 @@ public class BoardActivity extends AppCompatActivity {
         for (Button button : mCurrentTurn) {
             button.setEnabled(true);
             button.setClickable(true);
+            button.animate().scaleX(1.3F).scaleX(1.05F).setDuration(300).withEndAction(() -> {
+                button.animate().scaleX(1F).scaleX(1F);
+            });
         }
     }
 

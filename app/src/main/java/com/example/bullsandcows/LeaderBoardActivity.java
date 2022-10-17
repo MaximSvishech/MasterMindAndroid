@@ -1,5 +1,6 @@
 package com.example.bullsandcows;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -21,6 +22,8 @@ public class LeaderBoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.app_name));
         leaderBoardListView = findViewById(R.id.leaderBoardListView);
         //highScores.add(dummyScore);
         scoresAdapter = new HighScoresAdapter(this, highScores);

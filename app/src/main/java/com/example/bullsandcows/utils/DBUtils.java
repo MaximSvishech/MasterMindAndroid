@@ -33,8 +33,8 @@ public class DBUtils {
         assert currentUser != null;
         GameScore score = new GameScore(scoreNum, currentUser.getDisplayName(), currentUser.getUid());
         //Save score asynchronously
-        Thread t3 = new Thread(()-> mDatabase.child("scores").push().setValue(score));
-        t3.start();
+        Thread t = new Thread(()-> mDatabase.child("scores").push().setValue(score));
+        t.start();
 
     }
 
