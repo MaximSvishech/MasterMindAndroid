@@ -28,6 +28,7 @@ import com.example.bullsandcows.utils.GameUtils;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Locale;
@@ -79,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
         mInformationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                new MaterialAlertDialogBuilder(MainActivity.this)
+                        .setTitle(R.string.how_to_title)
+                        .setMessage(R.string.how_to_explanation)
+                        .setNeutralButton(R.string.how_to_back, null)
+                        .show();
             }
         });
 

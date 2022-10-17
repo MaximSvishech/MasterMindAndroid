@@ -88,14 +88,14 @@ public class BoardActivity extends AppCompatActivity {
         mArrowButton.setAlpha(.5f);
         mArrowButton.setClickable(false);
         mArrowButton.setEnabled(false);
-        if (!mGame.IsWon() && mTryNumber < mNumOfGuesses)
+        if (!mGame.IsWon() && mTryNumber <= mNumOfGuesses)
         {
             mGame.ResetHits();
             mTryNumber++;
             mCurrentTurn = findGuessButtons(mTryNumber);
             enableNextGuess();
         }
-        if (mGame.IsWon())
+        if (mGame.IsWon() || mTryNumber > mNumOfGuesses)
         {
             IntStream.range(0, 4).forEach(i -> {
                 eColor trueColor = eColor.valueOf(mRandomChoiceList.elementAt(i));
