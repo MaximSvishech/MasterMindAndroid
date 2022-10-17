@@ -97,36 +97,5 @@
         app:iconGravity="textStart"
         app:iconPadding="0dp" />
 
-    <ImageButton
-        android:id="@+id/logoutButton"
-        android:layout_width="59dp"
-        android:layout_height="50dp"
-        android:backgroundTint="@color/white"
-        android:contentDescription="@string/logout"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/logout"
-        tools:ignore="DuplicateSpeakableTextCheck" />
-
-    <TextView
-        android:id="@+id/helloText"
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="35dp"
-        android:hint="@string/logout"
-        android:inputType="text" />
-
-    <ImageButton
-        android:id="@+id/languageButton"
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="550dp"
-        android:backgroundTint="@color/white"
-        android:contentDescription="@string/choose_language"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/language_icon" />
-
 
 </RelativeLayout>
