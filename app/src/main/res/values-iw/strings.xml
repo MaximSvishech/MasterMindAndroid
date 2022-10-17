@@ -15,6 +15,7 @@
     <string name="log_out">"התנקת בהצלחה</string>
     <string name="play_b">התחל משחק</string>
     <string name="language">שפה</string>
+    <string name="sign_out">התנתק</string>
 
 
 </resources>
