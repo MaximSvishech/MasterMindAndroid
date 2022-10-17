@@ -12,6 +12,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bullsandcows.utils.BackgroundMediaPlayer;
 import com.example.bullsandcows.utils.GameUtils;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +34,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.IOException;
 import java.util.Locale;
 
 
@@ -103,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(statsIntent);
             }
         });
-
+        BackgroundMediaPlayer.getMediaPlayerInstance().playAudioFile(this, R.raw.bg_music, true);
 
     }
 
