@@ -29,6 +29,10 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.stream.IntStream;
 
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
+
 public class BoardActivity extends AppCompatActivity {
 
     private final int DEFAULT_COLOR = 520093696;
@@ -124,7 +128,7 @@ public class BoardActivity extends AppCompatActivity {
 
         mGame.CountHits(mRandomChoiceList, mGame.getGameBoard().getUserGuesses());
         mGame.getGameBoard().addComputerFeedBack(mGame.getBulPgiaCounter(),mGame.getPgiaCounter(),mTryNumber);
-        addAudibleFeedback();
+
 
         colorComputerChoiceButtons();
         mArrowButton.setAlpha(.5f);
@@ -132,13 +136,28 @@ public class BoardActivity extends AppCompatActivity {
         mArrowButton.setEnabled(false);
         if (!mGame.IsWon() && mTryNumber <= mNumOfGuesses)
         {
+            addAudibleFeedback();
             mGame.ResetHits();
             mTryNumber++;
             mCurrentTurn = findGuessButtons(mTryNumber);
             enableNextGuess();
         }
         if (mGame.IsWon() || mTryNumber > mNumOfGuesses) {
-            playSound(mGame.IsWon() ? tadaSound : negativeBeepsSound);
+            if (mGame.IsWon()) {
+                Thread soundT = new Thread(() -> {
+                    playSound(tadaSound); // last one - no need to pause
+                    return;
+                });
+                Thread visualT = new Thread(() -> {
+                    rainKonfetti();
+                    return;
+                });
+                soundT.start();
+                visualT.start();
+            }
+            else
+                playSound(negativeBeepsSound);
+
             IntStream.range(0, 4).forEach(i -> {
                 eColor trueColor = eColor.valueOf(mRandomChoiceList.elementAt(i));
                 mSecretButtons.elementAt(i).setBackgroundColor(Color.parseColor(trueColor.getValue())); // reveal the answer
@@ -223,7 +242,7 @@ public class BoardActivity extends AppCompatActivity {
         for (Button button : mCurrentTurn) {
             button.setEnabled(true);
             button.setClickable(true);
-            button.animate().scaleX(1.3F).scaleX(1.05F).setDuration(300).withEndAction(() -> {
+            button.animate().scaleX(1.2F).scaleY(1.05F).setDuration(300).withEndAction(() -> {
                 button.animate().scaleX(1F).scaleX(1F);
             });
         }
@@ -270,6 +289,7 @@ public class BoardActivity extends AppCompatActivity {
                 .setColumns(4)                        		// Default number of columns is 5.
                 .setDefaultSelectedColor(1)		// By default no color is used.
                 .setColorItemShape(ColorItemShape.CIRCLE)
+                .setDialogTitle(getResources().getString(R.string.choose_color))
                 .setOnSelectColorListener(new OnSelectColorListener() {
                     @Override
                     public void onColorSelected(int color, int position) {
@@ -332,5 +352,19 @@ public class BoardActivity extends AppCompatActivity {
         }
 
         return secretButtons;
+    }
+    private void rainKonfetti (){
+        final KonfettiView konfettiView = findViewById(R.id.viewKonfetti);
+        konfettiView.build()
+                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(2000L)
+                .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
+                .addSizes(new Size(12, 5f))
+                .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
+                .streamFor(300, 5000L);
+
     }
 }

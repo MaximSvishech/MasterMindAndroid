@@ -35,7 +35,9 @@
     <string name="exit_app">יציאה מהאפליקציה</string>
     <string name="play_again_button">שחק שוב</string>
     <string name="lost_game_title">הפסדת</string>
+    <string name="choose_color">בחר צבע</string>
     <string name="lost_game_message"> הפסדת :( \n
     תרצה לשחק שוב?</string>
+
 
 </resources>
