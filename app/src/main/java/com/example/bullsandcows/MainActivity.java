@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void showGuessDialog() {
+    private void showGuessDialog() { // custom dialog to get user guess
         final Dialog guessDialog = new Dialog(MainActivity.this);
         guessDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         guessDialog.setContentView(R.layout.guesses_choice_dialog);

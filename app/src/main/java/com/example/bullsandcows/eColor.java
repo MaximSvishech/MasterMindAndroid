@@ -35,7 +35,7 @@ public enum eColor {
         return null;
     }
 
-    public static eColor randomLetter()  {
+    public static eColor randomColor()  {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 }

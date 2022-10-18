@@ -20,7 +20,7 @@ public class Board {
         mUserGuessesArray[index] = userGuess;
     }
 
-    public void addComputerFeedBack(int bulPgia, int pgia, int index)
+    public void addComputerFeedBack(int bulPgia, int pgia, int index) // calculates user guess: "v" means bulls eye, "x" means hit
     {
         for (int i = 0; i < bulPgia; i++)
         {

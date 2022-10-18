@@ -1,7 +1,5 @@
 package com.example.bullsandcows;
 
-import java.lang.reflect.Array;
-import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
@@ -22,7 +20,7 @@ public class RandomGenerator {
 
         for (int i = 0; i < mNumberOfCharactersToGenerate; i++){
             do {
-                randomColor = eColor.randomLetter();
+                randomColor = eColor.randomColor();
             }
             while (randomChoiceList.contains(randomColor.toString()));
 
