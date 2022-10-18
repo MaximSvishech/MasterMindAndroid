@@ -27,6 +27,15 @@
     עיגול צהוב אומר שאחד הבצעים שבחרת הוא הצבע הנכון אבל לא נמצא במקום הנכון.\n
         עיגול ריק אומר שהצבע שבחרת בכלל לא קיים. </string>
     <string name="how_to_back">חזור</string>
-
+    <string name="win_congrats_title">ניצחת!</string>
+    <string name="congrats_won_message">ניצחת ב %1$d ניחושים \n
+        תרצה לשחק שוב?
+    </string>
+    <string name="back_to_main_menu">חזור לתפריט הראשי</string>
+    <string name="exit_app">יציאה מהאפליקציה</string>
+    <string name="play_again_button">שחק שוב</string>
+    <string name="lost_game_title">הפסדת</string>
+    <string name="lost_game_message"> הפסדת :( \n
+    תרצה לשחק שוב?</string>
 
 </resources>

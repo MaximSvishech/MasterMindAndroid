@@ -2,6 +2,9 @@ package com.example.bullsandcows;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -15,6 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.example.bullsandcows.utils.DBUtils;
 import com.example.bullsandcows.utils.GameUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mrudultora.colorpicker.ColorPickerDialog;
@@ -32,14 +36,14 @@ public class BoardActivity extends AppCompatActivity {
     private int mNumOfGuesses;
     private final int mMaxNumOfGuesses = 10;
     private final RandomGenerator mRandomGenerator = new RandomGenerator();
-    private Vector<String> mRandomChoiceList = new Vector<>();
-    private Vector<Button> mCurrentTurn = new Vector<>();
-    private Vector<Button> mSecretButtons = new Vector<>();
-    private Vector<Button> mCurrentComputerFeedBack = new Vector<>();
-    private final ArrayList<String> mColorList = GameUtils.getColors();
+    private Vector<String> mRandomChoiceList = new Vector<>(); // list contains the 4 secret colors
+    private Vector<Button> mCurrentTurn = new Vector<>(); // ui current user guess row buttons
+    private Vector<Button> mSecretButtons = new Vector<>(); // ui secret buttons
+    private Vector<Button> mCurrentComputerFeedBack = new Vector<>(); // ui computer feed back buttons
+    private final ArrayList<String> mColorList = GameUtils.getColors(); // list of available colors
     private int mNumOfColorsSelected = 0;
     private Button mArrowButton;
-    private GameLogic mGame;
+    private GameLogic mGame; // data member of the game logic
     private SoundPool soundPool;
     private int popSound, longPopSound, tadaSound, negativeBeepsSound,
             sweepSound, shortTransitionSound, swooshSound;
@@ -52,7 +56,7 @@ public class BoardActivity extends AppCompatActivity {
         chooseSecretNumbers();
         mSecretButtons = findSecretButtons();
         mCurrentTurn = findGuessButtons(mTryNumber);
-        mNumOfGuesses = getIntent().getIntExtra("Num of Guesses", 4);
+        mNumOfGuesses = getIntent().getIntExtra("Num of Guesses", 4); //gets user choice from previous screen
         mGame = new GameLogic(mNumOfGuesses);
         prepareBoard();
         prepareSoundPool();
@@ -87,7 +91,7 @@ public class BoardActivity extends AppCompatActivity {
         soundPool.play(soundID, 1, 1, 0, 0, 1);
     }
 
-    private void checkIfEnableArrowButton() {
+    private void checkIfEnableArrowButton() { // only when 4 buttons are chosen, the arrow button is available
         mNumOfColorsSelected = 0;
 
         for (Button button : mCurrentTurn) {
@@ -137,11 +141,56 @@ public class BoardActivity extends AppCompatActivity {
             playSound(mGame.IsWon() ? tadaSound : negativeBeepsSound);
             IntStream.range(0, 4).forEach(i -> {
                 eColor trueColor = eColor.valueOf(mRandomChoiceList.elementAt(i));
-                mSecretButtons.elementAt(i).setBackgroundColor(Color.parseColor(trueColor.getValue()));
+                mSecretButtons.elementAt(i).setBackgroundColor(Color.parseColor(trueColor.getValue())); // reveal the answer
             });
 
             DBUtils.writeNewScore(mTryNumber);
+
+            if (mGame.IsWon()){ // user won
+                new MaterialAlertDialogBuilder(BoardActivity.this)
+                        .setTitle(R.string.win_congrats_title)
+                        .setMessage(formatScore(mTryNumber))
+                        .setPositiveButton(R.string.play_again_button, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.back_to_main_menu, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(BoardActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .show();
+            }
+
+            if (mTryNumber > mNumOfGuesses) { //user is lost the game
+                new MaterialAlertDialogBuilder(BoardActivity.this)
+                        .setTitle(R.string.lost_game_title)
+                        .setMessage(R.string.lost_game_message)
+                        .setPositiveButton(R.string.play_again_button, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.back_to_main_menu, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(BoardActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .show();
+            }
         }
+    }
+
+    private String formatScore(Integer score) {
+        int key = score == 1 ? R.string.score_one_guess : R.string.congrats_won_message;
+        return String.format(getString(key), score);
     }
 
     private void addAudibleFeedback() {
@@ -202,7 +251,7 @@ public class BoardActivity extends AppCompatActivity {
 
     }
 
-    private void prepareBoard() {
+    private void prepareBoard() { // show user the number of rows that he selected, no need to show all board
 
         for (int i = mMaxNumOfGuesses; i > mNumOfGuesses ; i--)
         {
@@ -212,7 +261,7 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
-    public void OpenColorDialog(View v) {
+    public void OpenColorDialog(View v) { // color dialog picker , only unselected colors are available
         playSound(longPopSound);
         ArrayList colors = getColors(mCurrentTurn);
 

@@ -2,7 +2,7 @@ package com.example.bullsandcows;
 
 import java.util.Vector;
 
-public class GameLogic {
+public class GameLogic { // separate game logic, can be reused in any app
 
     private Board mGameBoard;
     private int mBulPgiaCounter =0;

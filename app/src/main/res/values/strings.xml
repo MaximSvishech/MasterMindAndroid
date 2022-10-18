@@ -26,4 +26,13 @@
     An yellow circle means that the color exists in the combination but the position is not correct.\n
        An empty circle means that color is not in the combination at all. </string>
     <string name="how_to_back">Back</string>
+    <string name="win_congrats_title">You Won!</string>
+    <string name="congrats_won_message">You won in %1$d guesses \n
+    would you like to play again?</string>
+    <string name="back_to_main_menu">Back to Main Menu</string>
+    <string name="exit_app">exit app</string>
+    <string name="play_again_button">Play Again</string>
+    <string name="lost_game_title">You Lost</string>
+    <string name="lost_game_message">  You Lost :( \n
+    would you like to play again?</string>
 </resources>
