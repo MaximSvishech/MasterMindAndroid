@@ -103,22 +103,22 @@ public class BoardActivity extends AppCompatActivity {
                 mNumOfColorsSelected++;
         }
 
-            if (mNumOfColorsSelected == 4) {
-                int id = getResources().getIdentifier("try" + mTryNumber + "_go", "id", getPackageName());
-                mArrowButton = findViewById(id);
-                if (mArrowButton != null){
-                    mArrowButton.setClickable(true);
-                    mArrowButton.setEnabled(true);
-                }
+        if (mNumOfColorsSelected == 4) {
+            int id = getResources().getIdentifier("try" + mTryNumber + "_go", "id", getPackageName());
+            mArrowButton = findViewById(id);
+            if (mArrowButton != null) {
+                mArrowButton.setClickable(true);
+                mArrowButton.setEnabled(true);
             }
         }
+    }
 
 
     private void chooseSecretNumbers() {
         mRandomChoiceList = mRandomGenerator.generateRandomChoice();
     }
 
-    public void calculateGuess(View v){
+    public void calculateGuess(View v) {
         DBUtils.writeNewScore(mTryNumber);
         for (Button button : mCurrentTurn) {
             button.setAlpha(.5f);
@@ -127,21 +127,23 @@ public class BoardActivity extends AppCompatActivity {
         }
 
         mGame.CountHits(mRandomChoiceList, mGame.getGameBoard().getUserGuesses());
-        mGame.getGameBoard().addComputerFeedBack(mGame.getBulPgiaCounter(),mGame.getPgiaCounter(),mTryNumber);
+        mGame.getGameBoard().addComputerFeedBack(mGame.getBulPgiaCounter(), mGame.getPgiaCounter(), mTryNumber);
 
 
         colorComputerChoiceButtons();
         mArrowButton.setAlpha(.5f);
         mArrowButton.setClickable(false);
         mArrowButton.setEnabled(false);
-        if (!mGame.IsWon() && mTryNumber <= mNumOfGuesses)
-        {
+        if (!mGame.IsWon() && mTryNumber <= mNumOfGuesses) {
             addAudibleFeedback();
             mGame.ResetHits();
             mTryNumber++;
             mCurrentTurn = findGuessButtons(mTryNumber);
-            enableNextGuess();
+            if (mTryNumber < (mMaxNumOfGuesses + 1)) {
+                enableNextGuess();
+            }
         }
+
         if (mGame.IsWon() || mTryNumber > mNumOfGuesses) {
             if (mGame.IsWon()) {
                 Thread soundT = new Thread(() -> {
@@ -154,8 +156,7 @@ public class BoardActivity extends AppCompatActivity {
                 });
                 soundT.start();
                 visualT.start();
-            }
-            else
+            } else
                 playSound(negativeBeepsSound);
 
             IntStream.range(0, 4).forEach(i -> {
@@ -165,7 +166,7 @@ public class BoardActivity extends AppCompatActivity {
 
             DBUtils.writeNewScore(mTryNumber);
 
-            if (mGame.IsWon()){ // user won
+            if (mGame.IsWon()) { // user won
                 new MaterialAlertDialogBuilder(BoardActivity.this)
                         .setTitle(R.string.win_congrats_title)
                         .setMessage(formatScore(mTryNumber))
@@ -223,7 +224,7 @@ public class BoardActivity extends AppCompatActivity {
         }
         Thread t = new Thread(() -> {
             int i;
-            for ( i = 0; i < soundsToPlay.size() -1; i++) {
+            for (i = 0; i < soundsToPlay.size() - 1; i++) {
                 playSound(soundsToPlay.get(i));
                 try {
                     Thread.currentThread().sleep(200);
@@ -253,16 +254,13 @@ public class BoardActivity extends AppCompatActivity {
         int bulPgiaCounter = mGame.getBulPgiaCounter();
         int pgiaCounter = mGame.getPgiaCounter();
 
-        for (Button button: mCurrentComputerFeedBack)
-        {
-            if (bulPgiaCounter > 0)
-            {
+        for (Button button : mCurrentComputerFeedBack) {
+            if (bulPgiaCounter > 0) {
                 button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#000000")));
                 bulPgiaCounter--;
                 continue;
             }
-            if (pgiaCounter > 0)
-            {
+            if (pgiaCounter > 0) {
                 button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFF00")));
                 pgiaCounter--;
             }
@@ -272,9 +270,8 @@ public class BoardActivity extends AppCompatActivity {
 
     private void prepareBoard() { // show user the number of rows that he selected, no need to show all board
 
-        for (int i = mMaxNumOfGuesses; i > mNumOfGuesses ; i--)
-        {
-            int relativeLayoutId = getResources().getIdentifier("try"+i, "id", getPackageName());
+        for (int i = mMaxNumOfGuesses; i > mNumOfGuesses; i--) {
+            int relativeLayoutId = getResources().getIdentifier("try" + i, "id", getPackageName());
             RelativeLayout relativeLayout = (RelativeLayout) findViewById(relativeLayoutId);
             relativeLayout.setVisibility(RelativeLayout.GONE);
         }
@@ -286,15 +283,15 @@ public class BoardActivity extends AppCompatActivity {
 
         ColorPickerDialog colorPickerDialog = new ColorPickerDialog(this);   // Pass the context.
         colorPickerDialog.setColors(colors)
-                .setColumns(4)                        		// Default number of columns is 5.
-                .setDefaultSelectedColor(1)		// By default no color is used.
+                .setColumns(4)                                // Default number of columns is 5.
+                .setDefaultSelectedColor(1)        // By default no color is used.
                 .setColorItemShape(ColorItemShape.CIRCLE)
                 .setDialogTitle(getResources().getString(R.string.choose_color))
                 .setOnSelectColorListener(new OnSelectColorListener() {
                     @Override
                     public void onColorSelected(int color, int position) {
                         v.setBackgroundTintList(ColorStateList.valueOf(color));
-                        mGame.getGameBoard().addUserGuess(eColor.fromString(String.format("#%06X", (0xFFFFFF & color))) , Integer.parseInt(v.getTag().toString()));
+                        mGame.getGameBoard().addUserGuess(eColor.fromString(String.format("#%06X", (0xFFFFFF & color))), Integer.parseInt(v.getTag().toString()));
                         checkIfEnableArrowButton();
                     }
 
@@ -311,9 +308,9 @@ public class BoardActivity extends AppCompatActivity {
 
         ArrayList<String> colorToChoose = (ArrayList<String>) mColorList.clone();
 
-        for (Button button : buttons){
+        for (Button button : buttons) {
             String color = String.format("#%06X", (0xFFFFFF & button.getBackgroundTintList().getDefaultColor()));
-            if (colorToChoose.contains(color)){
+            if (colorToChoose.contains(color)) {
                 colorToChoose.remove(color);
             }
         }
@@ -323,8 +320,7 @@ public class BoardActivity extends AppCompatActivity {
 
     private Vector<Button> findGuessButtons(int tryNumber) {
         Vector<Button> guessButtons = new Vector<>();
-        for (int i = 1; i <= 4; i++)
-        {
+        for (int i = 1; i <= 4; i++) {
             int id = getResources().getIdentifier("try" + tryNumber + "_userGuesses" + i, "id", getPackageName());
             guessButtons.add((Button) findViewById(id));
         }
@@ -334,8 +330,7 @@ public class BoardActivity extends AppCompatActivity {
 
     private Vector<Button> findComputerFeedBackButtons(int tryNumber) {
         Vector<Button> computerFeedBackButtons = new Vector<>();
-        for (int i = 1; i <= 4; i++)
-        {
+        for (int i = 1; i <= 4; i++) {
             int id = getResources().getIdentifier("try" + tryNumber + "_feedback" + i, "id", getPackageName());
             computerFeedBackButtons.add((Button) findViewById(id));
         }
@@ -345,15 +340,15 @@ public class BoardActivity extends AppCompatActivity {
 
     private Vector<Button> findSecretButtons() {
         Vector<Button> secretButtons = new Vector<>();
-        for (int i = 1; i <= 4; i++)
-        {
+        for (int i = 1; i <= 4; i++) {
             int id = getResources().getIdentifier("secret" + i, "id", getPackageName());
             secretButtons.add((Button) findViewById(id));
         }
 
         return secretButtons;
     }
-    private void rainKonfetti (){
+
+    private void rainKonfetti() {
         final KonfettiView konfettiView = findViewById(R.id.viewKonfetti);
         konfettiView.build()
                 .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
