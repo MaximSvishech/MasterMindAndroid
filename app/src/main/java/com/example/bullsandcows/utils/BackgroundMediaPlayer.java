@@ -12,6 +12,7 @@ public class BackgroundMediaPlayer {
 
     private static BackgroundMediaPlayer Instance;
     MediaPlayer mediaPlayer;
+    private static boolean isPlaying;
 
     public static BackgroundMediaPlayer getMediaPlayerInstance() {
         if (Instance == null) {
@@ -21,29 +22,33 @@ public class BackgroundMediaPlayer {
     }
 
     public void playAudioFile(Context context, int sampleAudio, boolean playInLoop) {
-        mediaPlayer = new MediaPlayer();
-        Uri mediaPath = Uri.parse("android.resource://" + context.getPackageName() + "/" + sampleAudio);
-        try {
-            mediaPlayer.setDataSource(context, mediaPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setVolume(0.6F, 0.6F);
-                if (playInLoop)
-                    mp.setLooping(true);
-                mp.start();
-                if (playInLoop)
-                    mp.setLooping(true);
+        if (!isPlaying) {
+            mediaPlayer = new MediaPlayer();
+            Uri mediaPath = Uri.parse("android.resource://" + context.getPackageName() + "/" + sampleAudio);
+            try {
+                mediaPlayer.setDataSource(context, mediaPath);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
-        mediaPlayer.prepareAsync(); // prepare async to not block main thread
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.setVolume(0.6F, 0.6F);
+                    if (playInLoop)
+                        mp.setLooping(true);
+                    mp.start();
+                    if (playInLoop)
+                        mp.setLooping(true);
+                    isPlaying = true;
+                }
+            });
+            mediaPlayer.prepareAsync(); // prepare async to not block main thread
+        }
     }
 
     public void stopAudioFile() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
+            isPlaying = false;
         }
     }}
