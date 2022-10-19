@@ -12,7 +12,7 @@ public class BackgroundMediaPlayer {
 
     private static BackgroundMediaPlayer Instance;
     MediaPlayer mediaPlayer;
-    private static boolean isPlaying;
+    private static boolean isPlaying = false;
 
     public static BackgroundMediaPlayer getMediaPlayerInstance() {
         if (Instance == null) {
@@ -46,7 +46,7 @@ public class BackgroundMediaPlayer {
         }
     }
 
-    public void stopAudioFile() {
+    public void stopAudio() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             isPlaying = false;
