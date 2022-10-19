@@ -48,7 +48,6 @@ public class GameScore {
 
     @Override
     public String toString() {
-//        String.format(Context.getApplicationContext().getString(R.string.welcome_messages), username, mailCount);
        return  + score + " " + (score == 1 ? "Guess" : "Guesses") +
                 ": " + name;
     }
