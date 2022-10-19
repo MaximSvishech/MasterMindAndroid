@@ -119,7 +119,6 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     public void calculateGuess(View v){
-        DBUtils.writeNewScore(mTryNumber);
         for (Button button : mCurrentTurn) {
             button.setAlpha(.5f);
             button.setClickable(false);
