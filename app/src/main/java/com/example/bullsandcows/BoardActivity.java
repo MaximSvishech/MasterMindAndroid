@@ -42,8 +42,7 @@ public class BoardActivity extends AppCompatActivity {
     private int mNumOfColorsSelected = 0;
     private Button mArrowButton;
     private GameLogic mGame; // data member of the game logic
-    private int popSound, longPopSound, tadaSound, negativeBeepsSound, sweepSound,
-            shortTransitionSound, swooshSound;
+    private int pgiaSound, bulPgiaSound, youWonSound, youLostSound, activityStartSound, openDialogSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +55,17 @@ public class BoardActivity extends AppCompatActivity {
         mGame = new GameLogic(mNumOfGuesses);
         prepareBoard();
         prepareSoundEffects();
-        SoundFXPoolManager.playSound(swooshSound);
+        SoundFXPoolManager.playSound(activityStartSound);
         enableNextGuess();
     }
 
     private void prepareSoundEffects() {
-        popSound = R.raw.pop;
-        longPopSound = R.raw.long_pop;
-        tadaSound = R.raw.tada;
-        negativeBeepsSound = R.raw.negative_beeps;
-        sweepSound = R.raw.sweep;
-        shortTransitionSound = R.raw.transition_short;
-        swooshSound = R.raw.swoosh;
+        openDialogSound = R.raw.long_pop;
+        bulPgiaSound = R.raw.long_pop;
+        pgiaSound = R.raw.pop;
+        youWonSound = R.raw.tada;
+        youLostSound = R.raw.negative_beeps;
+        activityStartSound = R.raw.swoosh;
     }
 
     private void checkIfEnableArrowButton() { // only when 4 buttons are chosen, the arrow button is available
@@ -122,7 +120,7 @@ public class BoardActivity extends AppCompatActivity {
         if (mGame.IsWon() || mTryNumber > mNumOfGuesses) {
             if (mGame.IsWon()) {
                 Thread soundT = new Thread(() -> {
-                    SoundFXPoolManager.playSound(tadaSound); // last one - no need to pause
+                    SoundFXPoolManager.playSound(youWonSound); // last one - no need to pause
                     return;
                 });
                 Thread visualT = new Thread(() -> {
@@ -133,7 +131,7 @@ public class BoardActivity extends AppCompatActivity {
                 visualT.start();
             }
             else
-                SoundFXPoolManager.playSound(negativeBeepsSound);
+                SoundFXPoolManager.playSound(youLostSound);
 
 
             IntStream.range(0, 4).forEach(i -> {
@@ -212,7 +210,7 @@ public class BoardActivity extends AppCompatActivity {
                 if (mutableBulPgiaCounter > 0) {
                     button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#000000")));
                     if (bulPgiaCounter < 4)
-                        SoundFXPoolManager.playSound(longPopSound);
+                        SoundFXPoolManager.playSound(bulPgiaSound);
                     mutableBulPgiaCounter--;
                     try {
                         Thread.currentThread().sleep(100);
@@ -223,7 +221,7 @@ public class BoardActivity extends AppCompatActivity {
                 }
                 if (mutablePgiaCounter > 0) {
                     button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFFF00")));
-                    SoundFXPoolManager.playSound(popSound);
+                    SoundFXPoolManager.playSound(pgiaSound);
                     mutablePgiaCounter--;
                     try {
                         Thread.currentThread().sleep(100);
@@ -249,7 +247,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     public void OpenColorDialog(View v) { // color dialog picker , only unselected colors are available
-        SoundFXPoolManager.playSound(longPopSound);
+        SoundFXPoolManager.playSound(openDialogSound);
         ArrayList colors = getColors(mCurrentTurn);
 
         ColorPickerDialog colorPickerDialog = new ColorPickerDialog(this);   // Pass the context.
