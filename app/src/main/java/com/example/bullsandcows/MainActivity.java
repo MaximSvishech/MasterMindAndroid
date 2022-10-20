@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mStatsButton;
     private CircularLinkedList mNumOfChoices;
     private Node mCurrentChoice;
+    private ActionBar actionBar;
 
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         loadLocale();
         setContentView(R.layout.activity_main);
 
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.app_name));
         // check if user has already signed-in (due to firebase persistent credentials)
         if (FirebaseAuth.getInstance().getCurrentUser() == null) // no user is signed-in
@@ -151,7 +152,9 @@ public class MainActivity extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         // There are no request codes
                         Intent data = result.getData();
-                        recreate();
+                        String username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+
+                        actionBar.setSubtitle( getResources().getString(R.string.hello)+" " + username);
                     }
                 }
             });
@@ -159,14 +162,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void signOut() {
         Task<Void> signOutTask = AuthUI.getInstance().signOut(this);
-//        signOutTask.addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                Toast.makeText(MainActivity.this,
-//                        "Signed-out successfully", Toast.LENGTH_LONG).show();
-//                signIn(REQ_CODE_AFTER_SIGN_OUT);
-//            }
-//        });
         signOutTask.addOnCompleteListener((aTask) -> {
             Toast.makeText(MainActivity.this, R.string.log_out, Toast.LENGTH_LONG).show();
             signIn(REQ_CODE_AFTER_SIGN_OUT);
