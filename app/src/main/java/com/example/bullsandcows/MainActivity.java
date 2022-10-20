@@ -1,6 +1,10 @@
 package com.example.bullsandcows;
 
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -135,20 +139,34 @@ public class MainActivity extends AppCompatActivity {
 
     public void signIn(int requestCode) {
         Intent signInIntent = AuthUI.getInstance().createSignInIntentBuilder().build();
-        startActivityForResult(signInIntent, requestCode);
+        someActivityResultLauncher.launch(signInIntent);
     }
+
+    // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                        recreate();
+                    }
+                }
+            });
 
 
     public void signOut() {
         Task<Void> signOutTask = AuthUI.getInstance().signOut(this);
-        signOutTask.addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(MainActivity.this,
-                        "Signed-out successfully", Toast.LENGTH_LONG).show();
-                signIn(REQ_CODE_AFTER_SIGN_OUT);
-            }
-        });
+//        signOutTask.addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                Toast.makeText(MainActivity.this,
+//                        "Signed-out successfully", Toast.LENGTH_LONG).show();
+//                signIn(REQ_CODE_AFTER_SIGN_OUT);
+//            }
+//        });
         signOutTask.addOnCompleteListener((aTask) -> {
             Toast.makeText(MainActivity.this, R.string.log_out, Toast.LENGTH_LONG).show();
             signIn(REQ_CODE_AFTER_SIGN_OUT);
@@ -232,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
         Configuration config = new Configuration();
         config.locale = locale;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        //save data to shared Prefernces
+        //save data to shared Preferences
         SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
         editor.putString("My_Lang", language);
         editor.apply();
