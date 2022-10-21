@@ -60,6 +60,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void prepareSoundEffects() {
+        // choose individual sound resource for each in-game necessity
         openDialogSound = R.raw.long_pop;
         bulPgiaSound = R.raw.long_pop;
         pgiaSound = R.raw.pop;
@@ -119,8 +120,9 @@ public class BoardActivity extends AppCompatActivity {
 
         if (mGame.IsWon() || mTryNumber > mNumOfGuesses) {
             if (mGame.IsWon()) {
+                // play sound FX / animation in separate threads
                 Thread soundT = new Thread(() -> {
-                    SoundFXPoolManager.playSound(youWonSound); // last one - no need to pause
+                    SoundFXPoolManager.playSound(youWonSound);
                     return;
                 });
                 Thread visualT = new Thread(() -> {
@@ -129,17 +131,18 @@ public class BoardActivity extends AppCompatActivity {
                 });
                 soundT.start();
                 visualT.start();
+                DBUtils.writeNewScore(mTryNumber);
             }
             else
                 SoundFXPoolManager.playSound(youLostSound);
 
 
-            IntStream.range(0, 4).forEach(i -> {
+            IntStream.range(0, 4).forEach(i -> { //display correct choices if won or lost
                 eColor trueColor = eColor.valueOf(mRandomChoiceList.elementAt(i));
                 mSecretButtons.elementAt(i).setBackgroundColor(Color.parseColor(trueColor.getValue())); // reveal the answer
             });
 
-            DBUtils.writeNewScore(mTryNumber);
+
 
             if (mGame.IsWon()) { // user won
                 new MaterialAlertDialogBuilder(BoardActivity.this)
@@ -200,6 +203,13 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void provideFeedbackForChoice() {
+        // provides feedback for the currently submitted choice
+        // yellow circle for correct color in the wrong position
+        // black circle for correct color in the correct position
+        // each type of feedback has its own sound effect
+        // the circles are colored and the sound fx are played consequentially,
+        // with a small pause between each
+
         mCurrentComputerFeedBack = findComputerFeedBackButtons(mTryNumber);
         final int bulPgiaCounter = mGame.getBulPgiaCounter();
         final int pgiaCounter = mGame.getPgiaCounter();
@@ -207,13 +217,14 @@ public class BoardActivity extends AppCompatActivity {
             int mutableBulPgiaCounter = bulPgiaCounter;
             int mutablePgiaCounter = pgiaCounter;
             for (Button button : mCurrentComputerFeedBack) {
+                // display each feedback consequentially
                 if (mutableBulPgiaCounter > 0) {
                     button.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#000000")));
                     if (bulPgiaCounter < 4)
                         SoundFXPoolManager.playSound(bulPgiaSound);
                     mutableBulPgiaCounter--;
                     try {
-                        Thread.currentThread().sleep(100);
+                        Thread.currentThread().sleep(100); // take a small pause until the next one
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -246,7 +257,7 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
-    public void OpenColorDialog(View v) { // color dialog picker , only unselected colors are available
+    public void OpenColorDialog(View v) { // color dialog picker, only unselected colors are available
         SoundFXPoolManager.playSound(openDialogSound);
         ArrayList colors = getColors(mCurrentTurn);
 
@@ -317,7 +328,7 @@ public class BoardActivity extends AppCompatActivity {
         return secretButtons;
     }
 
-    private void rainKonfetti() {
+    private void rainKonfetti() { // set up and play confetti animation
         final KonfettiView konfettiView = findViewById(R.id.viewKonfetti);
         konfettiView.build()
                 .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)

@@ -1,5 +1,5 @@
 package com.example.bullsandcows;
-
+/* displays gampelay statistics for the current user */
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,9 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bullsandcows.utils.DBUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class StatsActivity extends AppCompatActivity {
@@ -28,10 +25,14 @@ public class StatsActivity extends AppCompatActivity {
     }
 
     public void onStatsObtained(Map<Integer, Long> statsItems) {
+        // when statistics are fetched from Firebase Realtime DB,
+        // instantiate BarChartLayout
         BarChartLayout barChart = new BarChartLayout(this);
         ViewGroup vg = (ViewGroup)(this.findViewById(R.id.stats_layout));
-        vg.addView(barChart);
+        vg.addView(barChart); //add bar chart to the main activity view
 
+
+        // initialize individual bars for each statistic, and add them to the chart
         statsItems.forEach((score, count) -> {
             TextView nameView = new TextView(this);
             nameView.setText(formatScore(score));
@@ -56,6 +57,7 @@ public class StatsActivity extends AppCompatActivity {
         });
     }
     private String formatScore(Integer score) {
+        // localized and pluralized guesses count
         int key = score == 1 ? R.string.score_one_guess : R.string.score_num_of_guesses;
         return String.format(getString(key), score);
     }

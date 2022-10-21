@@ -1,12 +1,14 @@
 package com.example.bullsandcows.utils;
 
+/* Utility class for managing connection to Firebase Realtime DB
+Allows writing a new game score do DB asynchronously, later to be used for statistics/leaderboard,
+and fetching current user's gameplay statistics.
+ */
+
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.bullsandcows.GameScore;
-import com.example.bullsandcows.LeaderBoardActivity;
 import com.example.bullsandcows.R;
 import com.example.bullsandcows.StatsActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,12 +25,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 public class DBUtils {
     private static FirebaseAuth auth = FirebaseAuth.getInstance();
     private static FirebaseUser currentUser = auth.getCurrentUser();
     private static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
+    //Write a new score to DB. ScoreNum is passed from outside, and user name/id are fetched from
+    //Firebase Auth
     public static void writeNewScore(int scoreNum) {
         assert currentUser != null;
         GameScore score = new GameScore(scoreNum, currentUser.getDisplayName(), currentUser.getUid());
@@ -38,12 +41,14 @@ public class DBUtils {
 
     }
 
+    //Loads current highscores into the provided highScores list, and notifies the provided ArrayAdapter
+    //that changes have been made to the scores List which backs it
     public static void fetchHighScores(List<GameScore> highScores,
                                        AppCompatActivity context,
                                        ArrayAdapter adapter) {
         DatabaseReference queryLocation =
                 mDatabase.child("scores");
-        Query query = queryLocation.orderByChild("score").startAt(1).limitToFirst(10);
+        Query query = queryLocation.orderByChild("score").startAt(1).limitToFirst(10); //load top 10
         query.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -64,6 +69,9 @@ public class DBUtils {
 
     }
 
+    // Fetches current user's gameplay stats. returns grouped results in a map (key is number of
+    // guesses when won, value is the number of games won with this amount of guesses
+    // e.g. 4 guesses -> 20 games won, 5 guesses -> 18 games won, etc.
     public static void fetchMyStats(StatsActivity context) {
         List<GameScore> scores = new ArrayList<>();
         DatabaseReference queryLocation =
@@ -78,9 +86,9 @@ public class DBUtils {
                     GameScore score = scoreSnapshot.getValue(GameScore.class);
                     scores.add(score);
                 }
-
+                //perform grouping
                 Map<Integer, Long> scoresCountMap = scores.stream().collect(Collectors.groupingBy(GameScore::getScore, Collectors.counting()));
-                context.onStatsObtained(scoresCountMap);
+                context.onStatsObtained(scoresCountMap); //notify the activity new data is available
             }
 
             @Override

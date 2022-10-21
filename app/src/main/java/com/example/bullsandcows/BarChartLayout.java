@@ -1,5 +1,7 @@
 package com.example.bullsandcows;
-
+/* A custom UI element, which extends ViewGroup in order to allow for Bar Chart data representation.
+    Holds a list of Bars to be displayed.
+ */
 import static com.google.android.material.internal.ViewUtils.*;
 
 import android.animation.LayoutTransition;
@@ -31,10 +33,13 @@ public class BarChartLayout extends ViewGroup {
     @SuppressLint("RestrictedApi")
     private double barMarginV = dpToPx(this.getContext(), 2);
 
+    // Add bar to list
     public void add(Bar bar) {
-        this.setLayoutTransition(new LayoutTransition());
 
+        this.setLayoutTransition(new LayoutTransition());
         bars.add(bar);
+
+        //Add bar's views as child views
         addChildInternal(bar.getNameView());
         addChildInternal(bar.getBarView());
         addChildInternal(bar.getLabelView());
@@ -45,8 +50,8 @@ public class BarChartLayout extends ViewGroup {
     }
 
     @Override
+    // calculate our custom view's dimensions according to the layout that holds it
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
         int captionMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
         int labelMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
 
@@ -63,7 +68,11 @@ public class BarChartLayout extends ViewGroup {
     }
 
     @Override
+
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        // position the child views horizontally and vertically.
+        // each bar's width is calculated by taking into account the maximum value
+        // bars are animated when shown
         this.setLayoutTransition(new LayoutTransition());
         if (bars.size() == 0) {
             return;
@@ -99,6 +108,9 @@ public class BarChartLayout extends ViewGroup {
             barView.setPivotX(0);
             barView.setScaleX(0);
             int finalBarWidth = barWidth;
+            // after bar width is calculated, we animate it to grow from zero
+            // up to the calculated value. after the bar itself is 'grown',
+            // label that displays the value is positioned to the right of the bar
             barView.animate().scaleX(1).setDuration(300).withEndAction(() -> {
                 int labelWidth = bar.getLabelView().getMeasuredWidth();
                 int spaceLeftForLabel = finalBarWidth - 2 * (int) barMarginH;

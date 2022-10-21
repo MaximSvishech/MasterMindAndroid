@@ -1,12 +1,15 @@
 package com.example.bullsandcows.utils;
+/* Manager class for playing game background music through Android media player.
+   Uses singleton pattern to ensure a single media player throughout the app, so the music continues
+   when changing between different activities.
+ */
 
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
-
-import com.example.bullsandcows.R;
-
 import java.io.IOException;
+
+
 
 public class BackgroundMediaPlayer {
 
@@ -16,7 +19,7 @@ public class BackgroundMediaPlayer {
 
     public static BackgroundMediaPlayer getMediaPlayerInstance() {
         if (Instance == null) {
-            return Instance = new BackgroundMediaPlayer();
+            return Instance = new BackgroundMediaPlayer(); //singleton init
         }
         return Instance;
     }
@@ -31,6 +34,7 @@ public class BackgroundMediaPlayer {
                 e.printStackTrace();
             }
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                //runs when media player is finished being prepared asynchronously
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     mp.setVolume(0.6F, 0.6F);
@@ -42,10 +46,11 @@ public class BackgroundMediaPlayer {
                     isPlaying = true;
                 }
             });
-            mediaPlayer.prepareAsync(); // prepare async to not block main thread
+            mediaPlayer.prepareAsync(); // prepare media player asynchronously to not block main thread
         }
     }
 
+    //stop playing when necessary
     public void stopAudio() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();

@@ -1,5 +1,5 @@
 package com.example.bullsandcows;
-
+/* Displays Leaderboard */
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,7 +12,6 @@ import com.example.bullsandcows.utils.DBUtils;
 import java.util.ArrayList;
 
 public class LeaderBoardActivity extends AppCompatActivity {
-
     ListView leaderBoardListView;
     ArrayList<GameScore> highScores = new ArrayList<>();
     ArrayAdapter<GameScore> scoresAdapter;
@@ -24,8 +23,9 @@ public class LeaderBoardActivity extends AppCompatActivity {
         actionBar.setTitle(getResources().getString(R.string.app_name));
         leaderBoardListView = findViewById(R.id.leaderBoardListView);
         scoresAdapter = new HighScoresAdapter(this, highScores);
-
+        //ListView is be backed by
+        // a list of scores via the HighScoresAdapter
         leaderBoardListView.setAdapter(scoresAdapter);
-        DBUtils.fetchHighScores(highScores, this, scoresAdapter);
+        DBUtils.fetchHighScores(highScores, this, scoresAdapter); //fetch from DB into adapter
     }
 }
